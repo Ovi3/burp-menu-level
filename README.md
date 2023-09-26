@@ -1,0 +1,1 @@
+A simple BurpSuite extension to change extension context menu level
