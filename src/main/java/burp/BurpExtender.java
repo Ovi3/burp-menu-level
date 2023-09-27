@@ -23,18 +23,40 @@ public class BurpExtender implements IBurpExtender, IExtensionStateListener, ICo
         callbacks.registerContextMenuFactory(this);
         callbacks.registerExtensionStateListener(this);
 
-        // 窗口顶部栏
+        // 添加顶部栏
         burpMenuBar = getBurpFrame().getJMenuBar();
         topMenus = new JMenu("Menu Level");
-        JMenuItem level0Menu = new JMenuItem("Name - Scan");
-        JMenuItem level1Menu = new JMenuItem("Name -> Scan");
-        JMenuItem level2Menu = new JMenuItem("Extensions -> Name - Scan");
-        JMenuItem level3Menu = new JMenuItem("Extensions -> Name -> Scan");
 
-        level0Menu.addActionListener(e -> callbacks.saveExtensionSetting(menuLevel, "0"));
-        level1Menu.addActionListener(e -> callbacks.saveExtensionSetting(menuLevel, "1"));
-        level2Menu.addActionListener(e -> callbacks.saveExtensionSetting(menuLevel, "2"));
-        level3Menu.addActionListener(e -> callbacks.saveExtensionSetting(menuLevel, "3"));
+        ButtonGroup group = new ButtonGroup();
+        JRadioButtonMenuItem level0Menu = new JRadioButtonMenuItem("Name - Scan");
+        JRadioButtonMenuItem level1Menu = new JRadioButtonMenuItem("Name -> Scan");
+        JRadioButtonMenuItem level2Menu = new JRadioButtonMenuItem("Extensions -> Name - Scan");
+        JRadioButtonMenuItem level3Menu = new JRadioButtonMenuItem("Extensions -> Name -> Scan");
+        group.add(level0Menu);
+        group.add(level1Menu);
+        group.add(level2Menu);
+        group.add(level3Menu);
+
+        int level = getMenuLevel();
+        switch (level) {
+            case 0:
+                level0Menu.setSelected(true);
+                break;
+            case 1:
+                level1Menu.setSelected(true);
+                break;
+            case 2:
+                level2Menu.setSelected(true);
+                break;
+            case 3:
+                level3Menu.setSelected(true);
+                break;
+        }
+
+        level0Menu.addActionListener(e -> setMenuLevel("0"));
+        level1Menu.addActionListener(e -> setMenuLevel("1"));
+        level2Menu.addActionListener(e -> setMenuLevel("2"));
+        level3Menu.addActionListener(e -> setMenuLevel("3"));
 
         topMenus.add(level0Menu);
         topMenus.add(level1Menu);
@@ -68,22 +90,31 @@ public class BurpExtender implements IBurpExtender, IExtensionStateListener, ICo
         return null;
     }
 
+    private int getMenuLevel() {
+        String levelStr = callbacks.loadExtensionSetting(menuLevel);
+        if (levelStr == null || levelStr.length() == 0) {
+            levelStr = "3";
+        }
+
+        return Integer.parseInt(levelStr);
+    }
+
+    private void setMenuLevel(String level) {
+        callbacks.saveExtensionSetting(menuLevel, level);
+    }
+
     @Override
     public List<JMenuItem> createMenuItems(IContextMenuInvocation invocation) {
         List<JMenuItem> menus = new ArrayList<>();
         JMenuItem menu = new JMenuItem("flag");
         menus.add(menu);
 
-        String levelStr = callbacks.loadExtensionSetting(menuLevel);
-        if (levelStr == null || levelStr.length() == 0) {
-            levelStr = "3";
-        }
-
-        if (levelStr.equals("3")) {
+        int level = getMenuLevel();
+        if (level == 3) {
             return null; // 默认不处理； 返回null，不添加自身插件flag菜单
         }
 
-        changeContextMenuLevel(menus, Integer.parseInt(levelStr));
+        changeContextMenuLevel(menus, level);
 
         return menus;
     }
