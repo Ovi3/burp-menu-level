@@ -2,4 +2,4 @@ BurpSuite新版本中，插件注册的右键菜单是在第三层，即Extensio
 
 
 
-A simple BurpSuite extension to change extension context menu level.
+A simple BurpSuite extension to change extension context menu level, using in BurpSuite v2021.7 version and newer.  
