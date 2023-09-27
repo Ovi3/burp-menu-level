@@ -40,16 +40,23 @@ public class BurpExtender implements IBurpExtender, IExtensionStateListener, ICo
         topMenus.add(level1Menu);
         topMenus.add(level2Menu);
         topMenus.add(level3Menu);
-        burpMenuBar.add(topMenus);
-        burpMenuBar.repaint();
+        SwingUtilities.invokeLater(() -> {
+            burpMenuBar.add(topMenus);
+            burpMenuBar.revalidate();
+            burpMenuBar.repaint();
+        });
+
 
         callbacks.printOutput("Usage: click \"Menu Level\" menu at the top of window to change extension context menu level.");
     }
 
     @Override
     public void extensionUnloaded() {
-        burpMenuBar.remove(topMenus);
-        burpMenuBar.repaint();
+        SwingUtilities.invokeLater(() -> {
+            burpMenuBar.remove(topMenus);
+            burpMenuBar.revalidate();
+            burpMenuBar.repaint();
+        });
     }
 
     private static JFrame getBurpFrame() {
