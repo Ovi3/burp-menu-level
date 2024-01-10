@@ -144,7 +144,7 @@ public class BurpExtender implements IBurpExtender, IExtensionStateListener, ICo
                         Component invoker = popupMenu.getInvoker();
 
 
-                        if (!(invoker instanceof JMenuItem) || !((JMenuItem) invoker).getText().equals(extensionName)) {
+                        if (!(invoker instanceof JMenuItem)) {
                             return;
                         }
                         JMenuItem extensionNameMenuItem = (JMenuItem)invoker;
