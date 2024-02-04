@@ -205,7 +205,9 @@ public class BurpExtender implements IBurpExtender, IExtensionStateListener, ICo
                                                                         if (item == null) { // skip JSeparator and other components
                                                                             continue;
                                                                         }
-                                                                        item.setText(menu.getText() + " - " + item.getText());
+                                                                        if (!item.getText().startsWith(menu.getText() + " - ")) {
+                                                                            item.setText(menu.getText() + " - " + item.getText());
+                                                                        }
                                                                         items.add(item);
                                                                     }
                                                                     for (JMenuItem item : items) {
@@ -233,7 +235,9 @@ public class BurpExtender implements IBurpExtender, IExtensionStateListener, ICo
                                                                         if (item == null) { // skip JSeparator and other components
                                                                             continue;
                                                                         }
-                                                                        item.setText(menu.getText() + " - " + item.getText());
+                                                                        if (!item.getText().startsWith(menu.getText() + " - ")) {
+                                                                            item.setText(menu.getText() + " - " + item.getText());
+                                                                        }
                                                                         items.add(item);
                                                                     }
                                                                     for (JMenuItem item : items) {
