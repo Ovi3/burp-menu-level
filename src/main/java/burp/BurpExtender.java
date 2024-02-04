@@ -202,6 +202,9 @@ public class BurpExtender implements IBurpExtender, IExtensionStateListener, ICo
                                                                     List<JMenuItem> items = new ArrayList<>();
                                                                     for (int i = 0; i < menu.getItemCount(); i++) {
                                                                         JMenuItem item = menu.getItem(i);
+                                                                        if (item == null) { // skip JSeparator and other components
+                                                                            continue;
+                                                                        }
                                                                         item.setText(menu.getText() + " - " + item.getText());
                                                                         items.add(item);
                                                                     }
@@ -227,6 +230,9 @@ public class BurpExtender implements IBurpExtender, IExtensionStateListener, ICo
                                                                     List<JMenuItem> items = new ArrayList<>();
                                                                     for (int j = 0; j < menu.getItemCount(); j++) {
                                                                         JMenuItem item = menu.getItem(j);
+                                                                        if (item == null) { // skip JSeparator and other components
+                                                                            continue;
+                                                                        }
                                                                         item.setText(menu.getText() + " - " + item.getText());
                                                                         items.add(item);
                                                                     }
